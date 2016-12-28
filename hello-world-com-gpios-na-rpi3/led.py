@@ -1,5 +1,5 @@
-import RPi.GPIO as GPIO # Aqui e importado o pacote de GPIO para que assim o script teja acesso as GPIO da rpi
-import time # Importa o pacto time - semelhante ao delay do arduino
+import RPi.GPIO as GPIO # Aqui e importado o pacote de GPIO para que assim o script tenha acesso as GPIO da rpi
+import time # Importa o pacote time - semelhante ao delay do arduino
 
 GPIO.setwarnings(False) # Aqui e setado os 'warnings' como falso, para nao mostra-los no console
 GPIO.setmode(GPIO.BCM) # Seta o tipo de pinagem da gpio, neste caso sera o BCM, que sao os alieases aos pinos nativos
