@@ -2,14 +2,15 @@ import sys
 import paho.mqtt.client as mqtt
 import RPi.GPIO as GPIO
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(17, GPIO.OUT)
-
+ledPin = 17
 broker = "test.mosquitto.org"
 port = 1883
 keppAlive = 60
 topic = 'DZ/#'
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(ledPin, GPIO.OUT)
 
 def on_connect(client, userdata, flags, rc):
     print("[STATUS] Conectado ao Broker. Resultado de conexao: "+str(rc))
@@ -22,9 +23,9 @@ def on_message(client, userdata, msg):
 
     if msg.topic == 'DZ/rasp/led':
         if(message == '1'):
-            GPIO.output(pin, GPIO.HIGH)
+            GPIO.output(ledPin, GPIO.HIGH)
         else:
-            GPIO.output(pin, GPIO.LOW)
+            GPIO.output(ledPin, GPIO.LOW)
 
 try:
     print("[STATUS] Inicializando MQTT...")
