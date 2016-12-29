@@ -13,7 +13,7 @@ GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(ledPin, GPIO.OUT)
 
-# funcao on_connect será atribuida e chamada quando a conexao for iniciada
+# funcao on_connect sera atribuida e chamada quando a conexao for iniciada
 # ela printara na tela caso tudo ocorra certo durante a tentativa de conexao
 # tambem ira assina o topico que foi declarado acima
 def on_connect(client, userdata, flags, rc):
