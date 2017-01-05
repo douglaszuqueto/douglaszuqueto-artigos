@@ -2,7 +2,7 @@ import sys
 import paho.mqtt.client as mqtt # importa o pacote mqtt
 import RPi.GPIO as GPIO
 
-ledPin = 17
+ledPin = 11
 
 broker = "test.mosquitto.org" # define o host do broker mqtt'
 port = 1883 # define a porta do broker
@@ -10,7 +10,7 @@ keppAlive = 60 # define o keepAlive da conexao
 topic = 'DZ/#' # define o topico que este script assinara
 
 GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 GPIO.setup(ledPin, GPIO.OUT)
 
 # funcao on_connect sera atribuida e chamada quando a conexao for iniciada
