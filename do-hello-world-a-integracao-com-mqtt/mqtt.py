@@ -50,4 +50,5 @@ try:
 
 except KeyboardInterrupt:
     print "\nScript finalizado."
+    GPIO.cleanup()
     sys.exit(0)
