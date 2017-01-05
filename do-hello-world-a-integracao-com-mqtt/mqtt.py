@@ -25,15 +25,15 @@ def on_connect(client, userdata, flags, rc):
 # do script, pois toda vez que receber uma nova mensagem do topico assinado, ela sera invocada
 def on_message(client, userdata, msg):
 
-    messagem = str(msg.payload) # converte a mensagem recebida
-    print("[MSG RECEBIDA] Topico: "+msg.topic+" / Mensagem: "+messagem) # imprime no console a mensagem
+    message = str(msg.payload) # converte a mensagem recebida
+    print("[MSG RECEBIDA] Topico: "+msg.topic+" / Mensagem: "+ message) # imprime no console a mensagem
 
     # testara se o topico desta mensagem sera igual ao topico que queremos, que neste caso remete ao led
     if msg.topic == 'DZ/rasp/led':
 
         # basicamente nessa condicional testara se o valor recebido sera 1, sendo 1 acende o led
         # e, caso receber qualquer outra coisa, apagara o led
-        if(messagem == '1'):
+        if(message == '1'):
             GPIO.output(ledPin, GPIO.HIGH)
         else:
             GPIO.output(ledPin, GPIO.LOW)
