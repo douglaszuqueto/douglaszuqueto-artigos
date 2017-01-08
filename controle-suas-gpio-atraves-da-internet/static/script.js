@@ -25,11 +25,6 @@ function onConnectionLost(responseObject) {
 }
 function onMessageArrived(message) {
   var msg = message.payloadString;
-  if(msg === '1'){
-    Materialize.toast('Objeto ligado', 2000);
-  }else{
-    Materialize.toast('Objeto desligado', 2000);
-  }
   return console.log(message.destinationName, ' -- ', msg);
 }
 
@@ -59,6 +54,12 @@ function led(value) { // Evento do Botão Desligar
   message = new Paho.MQTT.Message(value); // Cria uma nova mensagem
   message.destinationName = json.topic; // Define o tópico a ser enviado, neste caso: led/1
   mqtt.send(message); // Envia a mensagem
+
+  if(value === '1'){
+    Materialize.toast('Objeto ligado', 2000);
+  }else{
+    Materialize.toast('Objeto desligado', 2000);
+  }
 }
 
 $(document).ready(function () {
