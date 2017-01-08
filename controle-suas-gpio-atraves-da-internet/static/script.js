@@ -24,7 +24,13 @@ function onConnectionLost(responseObject) {
   return console.log("Status: " + responseObject.errorMessage);
 }
 function onMessageArrived(message) {
-  return console.log(message.destinationName, ' -- ', message.payloadString);
+  var msg = message.payloadString;
+  if(msg === '1'){
+    Materialize.toast('Objeto ligado', 2000);
+  }else{
+    Materialize.toast('Objeto desligado', 2000);
+  }
+  return console.log(message.destinationName, ' -- ', msg);
 }
 
 /* define aos eventos de Conexão seus respectivos callbacks*/
