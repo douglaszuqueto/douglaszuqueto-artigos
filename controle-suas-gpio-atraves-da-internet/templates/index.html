@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Douglas Zuqueto - Controle suas gpio através da internet</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"
@@ -27,17 +28,18 @@
         <input id="topic" type="text" class="validate">
         <label for="topic" class="active">Tópico</label>
       </div>
-      <div class="input-field col s12">
-        <input class="btn green" type="submit" id="save" name="save" value="Salvar informações">
-        <input class="btn blue" type="button" id="connect" name="connect" value="Conectar">
+      <div class="row">
+        <input class="btn green col s5" type="submit" id="save" name="save" value="Salvar">
+        <input class="btn blue col s5 right" type="button" id="connect" name="connect" value="Conectar">
       </div>
     </form>
+    <br>
     <br>
     <div class="col s12">
 
       <div class="center">
-        <button class="waves-effect waves-light btn green btn-led" id="btn-on" disabled>ON</button>
         <button class="waves-effect waves-light btn red btn-led" id="btn-off" disabled>OFF</button>
+        <button class="waves-effect waves-light btn green btn-led" id="btn-on" disabled>ON</button>
       </div>
       <br>
       <h5 class="center">
