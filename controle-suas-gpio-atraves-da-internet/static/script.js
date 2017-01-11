@@ -1,7 +1,8 @@
 /* json com configuracoes iniciais de conexao */
 var json = {
   broker: 'test.mosquitto.org',
-  topic: 'DZ/rasp/led'
+  topic: 'DZ/rasp/led',
+  port: 8880
 };
 
 /* resgata as informações do localStorage caso existir */
@@ -12,7 +13,7 @@ if( JSON.parse(localStorage.getItem('mqtt'))){
 /* Instancia o paho-mqtt */
 var mqtt = new Paho.MQTT.Client(
   json.broker,
-  8080,
+  json.port,
   "DZ-" + Date.now()
 );
 
