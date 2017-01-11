@@ -13,7 +13,7 @@ if( JSON.parse(localStorage.getItem('mqtt'))){
 /* Instancia o paho-mqtt */
 var mqtt = new Paho.MQTT.Client(
   json.broker,
-  json.port,
+  8880,
   "DZ-" + Date.now()
 );
 
