@@ -4,7 +4,7 @@
 
 // Vars
 const char* SSID = "homewifi_D68"; // rede wifi
-const char* PASSWORD = "09114147"; // senha da rede
+const char* PASSWORD = "09114147"; // senha da rede wifi
 
 const char* BROKER_MQTT = "broker.iot-br.com"; // ip/host do broker
 int BROKER_PORT = 8080; // porta do broker
@@ -37,7 +37,7 @@ void loop() {
 // implementacao dos prototypes
 
 void initPins() {
-  pinMode(D5, OUTPUT); // Led Ligado ao Pino D5 do ESP826 - ESP12-E
+  pinMode(D5, OUTPUT);
   digitalWrite(D5, 0);
 }
 
@@ -47,14 +47,15 @@ void initSerial() {
 void initWiFi() {
   delay(10);
   Serial.println("Conectando-se em: " + String(SSID));
-  
-  WiFi.begin(SSID, PASSWORD); // Conecta na Rede Wireless
+
+  WiFi.begin(SSID, PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
     delay(100);
     Serial.print(".");
   }
   Serial.println();
-  Serial.println("Conectado na Rede " + String(SSID) + " | " + String(WiFi.localIP()));
+  Serial.print("Conectado na Rede " + String(SSID) + " | IP => ");
+  Serial.println(WiFi.localIP());
 }
 
 // Funcão para se conectar ao Broker MQTT
