@@ -1,6 +1,6 @@
 /* json com configuracoes iniciais de conexao */
 var json = {
-  broker: 'test.mosquitto.org',
+  broker: 'broker.iot-br.com',
   topic: 'DZ/rasp/led',
   port: 8880
 };
@@ -13,7 +13,7 @@ if( JSON.parse(localStorage.getItem('mqtt'))){
 /* Instancia o paho-mqtt */
 var mqtt = new Paho.MQTT.Client(
   json.broker,
-  8880,
+  parseInt(json.port),
   "DZ-" + Date.now()
 );
 
@@ -65,16 +65,18 @@ function led(value) { // Evento do Botão Desligar
 
 $(document).ready(function () {
   $('#broker').val(json.broker);
+  $('#port').val(json.port);
   $('#topic').val(json.topic);
 
   /* Eventos de configuração */
   $('#save').on('click', function () {
     var broker, topic;
     broker = $('#broker').val();
+    port = $('#port').val();
     topic = $('#topic').val();
 
     /* salva no localStorage os dados do formulário */
-    localStorage.setItem("mqtt", JSON.stringify({broker: broker, topic: topic}));
+    localStorage.setItem("mqtt", JSON.stringify({broker: broker, port: port ,topic: topic}));
 
     location.reload();
     return false;
