@@ -1,8 +1,8 @@
 /* json com configuracoes iniciais de conexao */
 var json = {
-  broker: 'broker.iot-br.com',
-  topic: 'DZ/rasp/led',
-  port: 8880
+  broker: 'test.mosquitto.org',
+  topic: 'DZ/gauge/temperature',
+  port: 8080
 };
 
 /* resgata as informações do localStorage caso existir */
