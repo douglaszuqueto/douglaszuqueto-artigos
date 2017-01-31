@@ -3,123 +3,83 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>Douglas Zuqueto - </title>
+  <title>Douglas Zuqueto - Sensoriamento Real Time com MQTT e Websockets</title>
 
   <!-- Load CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
-  <link href="/static/c3.min.css" rel="stylesheet" type="text/css">
+  <link href="/static/css/c3.min.css" rel="stylesheet" type="text/css">
 
   <!-- Load JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"
   type="text/javascript"></script>
   <style media="screen">
   .app {
-    margin-top: 60px;
+    margin-top: 20px;
   }
   </style>
 </head>
 <body>
 </body>
-<div class="container">
-  <div class=" app">
-    <h4 class="center">Title</h4>
-    <br>
-    <form method="GET" action="#">
-      <div class="row">
-        <div class="input-field col s6">
-          <input id="broker" type="text" class="validate">
-          <label for="broker" class="active">Broker</label>
-        </div>
-        <div class="input-field col s6">
-          <input id="port" type="text" class="validate">
-          <label for="port" class="active">Port</label>
-        </div>
+<div class="container app">
+  <h5 class="center">Sensoriamento Real Time com MQTT e Websockets</h5>
+  <br>
+  <form method="GET" action="#">
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="broker" type="text" class="validate">
+        <label for="broker" class="active">Broker</label>
       </div>
-      <div class="input-field col s12">
-        <input id="topic" type="text" class="validate">
-        <label for="topic" class="active">Topic</label>
+      <div class="input-field col s6">
+        <input id="port" type="text" class="validate">
+        <label for="port" class="active">Port</label>
       </div>
-      <div class="row">
-        <input class="btn green col s5" type="submit" id="save" name="save" value="Salvar">
-        <input class="btn blue col s5 right" type="button" id="connect" name="connect" value="Conectar">
-      </div>
-    </form>
-    <br>
-    <br>
+    </div>
+    <div class="input-field col s12">
+      <input id="topic" type="text" class="validate">
+      <label for="topic" class="active">Topic</label>
+    </div>
+    <div class="row">
+      <input class="btn green col s5" type="submit" id="save" name="save" value="Salvar">
+      <input class="btn blue col s5 right" type="button" id="connect" name="connect" value="Conectar">
+    </div>
+  </form>
+  <!-- Gauge -->
+  <div class="row">
     <div class="col s12">
-
       <div class="center">
         <div id='gauge'></div>
       </div>
       <br>
       <h6 class="center">
-        Artigo:
-        <a href="https://douglaszuqueto.com/artigos/controle-suas-gpio-atraves-da-internet" target="_blank">
-          "title"
+        Confira o artigo em:
+        <a href="https://blog.dev/artigos/sensoriamento-em-real-time" target="_blank">
+          "Sensoriamento Real Time com MQTT e Websockets"
         </a>
       </h6>
     </div>
-    <p class="center">
-      <br>
-      <img src="/static/dz.png" class="" style="width:10%"/>
-      <br>
-      <strong>Douglas Zuqueto</strong>
-    </p>
   </div>
+  <!-- Patrocinio -->
+  <div class="row">
+    <div class="col s6 right-align">
+      <a href="https://douglaszuqueto.com">
+        <img src="/static/images/dz.png" width="20%" title="Douglas Zuqueto">
+      </a>
+    </div>
+    <div class="col s6 left-align">
+      <a href="http://www.filipeflop.com/">
+        <img src="/static/images/filipe.png" width="20%" title="FilipeFlop">
+      </a>
+    </div>
+  </div>
+
+  <!-- Load JS -->
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="/static/js/c3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+
+  <!-- Load JS APP -->
+  <script src="/static/js/app.js" type="text/javascript"></script>
 </div>
-
-<!-- Load JS -->
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="https://d3js.org/d3.v3.min.js"></script>
-<script src="/static/c3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
-
-<!-- Load JS APP -->
-<script src="/static/app.js" type="text/javascript"></script>
-<script type="text/javascript">
-var gauge = c3.generate({
-  bindto: '#gauge',
-  data: {
-    columns: [
-      ['temperature', 0]
-    ],
-    type: 'gauge',
-    // onclick: function (d, i) { console.log("onclick", d, i); },
-    // onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-    // onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-  },
-  gauge: {
-    label: {
-      format: function(value, ratio) {
-        return value + ' ºC';
-      },
-      show: false // to turn off the min/max labels.
-    },
-    min: 0, // 0 is default, //can handle negative min e.g. vacuum / voltage / current flow / rate of change
-    max: 50, // 100 is default
-    units: ' ºC',
-    //    width: 39 // for adjusting arc thickness
-  },
-  color: {
-    pattern: ['#227EAF', '#F97600'], // the three color levels for the percentage values.
-    threshold: {
-      unit: 'ºC',
-      max: 50,
-      values: [10, 30]
-    }
-  },
-  size: {
-    height: 180
-  }
-});
-
-// setTimeout(function () {
-//   gauge.load({
-//     columns: [
-//       ['temperature', 10]
-//     ]
-//   });
-// }, 1000);
-</script>
 </body>
 </html>
