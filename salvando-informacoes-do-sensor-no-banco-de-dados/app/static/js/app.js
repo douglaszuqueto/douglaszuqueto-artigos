@@ -1,137 +1,101 @@
-/* json com configuracoes iniciais de conexao */
-var json = {
+(function () {
+
+  const brokerInput = document.getElementById('broker');
+  const portInput   = document.getElementById('port');
+  const topicInput  = document.getElementById('topic');
+
+  const saveButton    = document.getElementById('save');
+  const connectButton = document.getElementById('connect');
+
+  let json = {
     broker: 'broker.iot-br.com',
     topic: 'DZ/gauge/temperature',
     port: 8880
-};
+  };
 
-/* resgata as informações do localStorage caso existir */
-if (JSON.parse(localStorage.getItem('mqtt'))) {
+  if ( JSON.parse(localStorage.getItem('mqtt')) ) {
     json = JSON.parse(localStorage.getItem('mqtt'));
-}
+  }
 
-/* Instancia o paho-mqtt */
-var mqtt = mqttConnect();
-
-function mqttConnect() {
+  const mqttConnect = () => {
     return new Paho.MQTT.Client(
-        json.broker,
-        parseInt(json.port),
-        "DZ-" + Date.now()
+      json.broker,
+      parseInt(json.port),
+      "DZ-" + Date.now()
     );
-}
+  };
 
-/* define aos eventos seus respectivos callbacks*/
-mqtt.onConnectionLost = onConnectionLost;
-mqtt.onMessageArrived = onMessageArrived;
-
-function onConnectionLost(responseObject) {
-    var errorMessage = responseObject.errorMessage;
+  const onConnectionLost = (responseObject) => {
+    let errorMessage = responseObject.errorMessage;
     console.log("Status: " + errorMessage);
-
     Materialize.toast(errorMessage, 2000);
 
-    // setInterval(function () {
-    //     mqtt = mqttConnect();
-    //     init();
-    //     Materialize.toast('Tentando se reconectar', 1000);
-    // }, 1000);
-}
-function onMessageArrived(message) {
-    var msg = message.payloadString;
+  };
+
+  const onMessageArrived = (message) => {
+    let msg = message.payloadString;
     console.log(message.destinationName, ' -- ', msg);
 
-    if (msg > 50) {
-        return false;
-    }
-    if (msg == gauge.data.values('temperature')[0]) {
-        return false;
+    if ( msg > 50 ) {
+      return false;
     }
 
-    // metodo responsável por atualizar o Gauge
+    if ( msg == gauge.data.values('temperature')[0] ) {
+      return false;
+    }
+
     gauge.load({
-        columns: [
-            ['temperature', msg]
-        ]
+      columns: [
+        ['temperature', msg]
+      ]
     });
 
-}
+  };
 
-/* define aos eventos de Conexão seus respectivos callbacks*/
-var options = {
-    timeout: 3,
-    onSuccess: onSuccess,
-    onFailure: onFailure
-};
-function onSuccess() {
-    console.log("Conectado com o Broker MQTT");
-    mqtt.subscribe(json.topic, {qos: 1}); // Assina o Tópico
+  let mqtt              = mqttConnect();
+  mqtt.onConnectionLost = onConnectionLost;
+  mqtt.onMessageArrived = onMessageArrived;
+
+
+  const onSuccess = () => {
+    mqtt.subscribe(json.topic, { qos: 1 });
     Materialize.toast('Conectado ao broker', 2000);
-}
+  };
 
-function onFailure(message) {
+  const onFailure = (message) => {
     console.log("Connection failed: " + message.errorMessage);
-}
+  };
 
-/* função de conexão */
-function init() {
-    mqtt.connect(options); // Conecta ao Broker MQTT
-}
+  const connect = () => {
 
-/* Configuracao do Gauge */
-var gauge = c3.generate({
-    bindto: '#gauge',
-    data: {
-        columns: [
-            ['temperature', 0]
-        ],
-        type: 'gauge',
-    },
-    gauge: {
-        label: {
-            format: function (value, ratio) {
-                return value + ' ºC';
-            },
-            show: false
-        },
-        min: 0,
-        max: 50,
-        units: ' ºC',
-    },
-    color: {
-        pattern: ['#227EAF', '#F97600'],
-        threshold: {
-            unit: 'ºC',
-            max: 50,
-            values: [10, 30]
-        }
-    },
-    size: {
-        height: 180
-    }
-});
+    let options = {
+      timeout: 3,
+      onSuccess: onSuccess,
+      onFailure: onFailure
+    };
 
-/* App */
-$(document).ready(function () {
-    $('#broker').val(json.broker);
-    $('#port').val(json.port);
-    $('#topic').val(json.topic);
+    mqtt.connect(options);
+  };
 
-    /* Eventos de configuração */
-    $('#save').on('click', function () {
-        var broker, topic;
-        broker = $('#broker').val();
-        port = $('#port').val();
-        topic = $('#topic').val();
+  const save = () => {
+    var broker, topic;
+    broker = $('#broker').val();
+    port   = $('#port').val();
+    topic  = $('#topic').val();
 
-        /* salva no localStorage os dados do formulário */
-        localStorage.setItem("mqtt", JSON.stringify({broker: broker, port: port, topic: topic}));
+    localStorage.setItem("mqtt", JSON.stringify({ broker: broker, port: port, topic: topic }));
 
-        location.reload();
-        return false;
-    });
+    return location.reload();
+  };
 
-    $('#connect').on('click', function () {
-        init();
-    });
-});
+  const init = () => {
+    brokerInput.value = json.broker;
+    portInput.value   = json.port;
+    topicInput.value  = json.topic;
+  };
+
+  init();
+  saveButton.addEventListener('click', save);
+  connectButton.addEventListener('click', connect);
+
+})();
