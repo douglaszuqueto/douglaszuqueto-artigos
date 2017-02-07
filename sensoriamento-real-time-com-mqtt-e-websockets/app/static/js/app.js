@@ -11,18 +11,31 @@ if (JSON.parse(localStorage.getItem('mqtt'))) {
 }
 
 /* Instancia o paho-mqtt */
-var mqtt = new Paho.MQTT.Client(
-    json.broker,
-    parseInt(json.port),
-    "DZ-" + Date.now()
-);
+var mqtt = mqttConnect();
+
+function mqttConnect() {
+    return new Paho.MQTT.Client(
+        json.broker,
+        parseInt(json.port),
+        "DZ-" + Date.now()
+    );
+}
 
 /* define aos eventos seus respectivos callbacks*/
 mqtt.onConnectionLost = onConnectionLost;
 mqtt.onMessageArrived = onMessageArrived;
 
 function onConnectionLost(responseObject) {
-    return console.log("Status: " + responseObject.errorMessage);
+    var errorMessage = responseObject.errorMessage;
+    console.log("Status: " + errorMessage);
+
+    Materialize.toast(errorMessage, 2000);
+
+    // setInterval(function () {
+    //     mqtt = mqttConnect();
+    //     init();
+    //     Materialize.toast('Tentando se reconectar', 1000);
+    // }, 1000);
 }
 function onMessageArrived(message) {
     var msg = message.payloadString;
@@ -53,7 +66,7 @@ var options = {
 function onSuccess() {
     console.log("Conectado com o Broker MQTT");
     mqtt.subscribe(json.topic, {qos: 1}); // Assina o Tópico
-    Materialize.toast('Conectado ao broker', 1000);
+    Materialize.toast('Conectado ao broker', 2000);
 }
 
 function onFailure(message) {

@@ -1,5 +1,20 @@
 # importa os pacotes
+import sqlite3
 from flask import Flask, render_template
+
+def getTemperature():
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT * FROM temperature
+        ORDER BY id DESC
+        LIMIT 50;
+    """)
+
+    return cursor.fetchall()
+
+    conn.close()
 
 # instancia o flask
 app = Flask(__name__)
@@ -8,7 +23,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     # render_template como o nome ja diz, ira renderizar nosso index.html
-    return render_template('index.html')
+    return render_template('index.html', temperatures=getTemperature())
 
 if __name__ == "__main__":
     # inicia a aplicacao
