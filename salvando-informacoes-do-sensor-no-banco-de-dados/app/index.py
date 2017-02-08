@@ -7,7 +7,7 @@ def getTemperature():
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT * FROM temperature
+        SELECT id, temperature, strftime('%d/%m/%Y %H:%M:%S', created_at) as created_at FROM temperature
         ORDER BY id DESC
         LIMIT 50;
     """)

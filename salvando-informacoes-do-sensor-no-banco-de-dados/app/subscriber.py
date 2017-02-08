@@ -8,9 +8,9 @@ def insertDatabase(message):
 
     cursor.execute("""
         INSERT INTO temperature
-        (temperature, created_at)
-        VALUES (?, ?)
-    """, (message, '2017-02-07'))
+        (temperature)
+        VALUES (?)
+    """, (message,))
 
     conn.commit()
     conn.close()
