@@ -31,28 +31,24 @@
     return new Paho.MQTT.Client(
       defaultSettings.broker,
       parseInt(defaultSettings.port),
-      "DZ-" + Date.now()
+      `DZ- ${ Date.now() }`
     );
   };
 
   const onConnectionLost = (responseObject) => {
     let errorMessage = responseObject.errorMessage;
-    console.log("Status: " + errorMessage);
+    console.log(`Status: ${ errorMessage }`);
     Materialize.toast(errorMessage, 2000);
 
   };
 
   const onMessageArrived = (message) => {
     let msg = message.payloadString;
-    console.log(message.destinationName, ' -- ', msg);
+    console.log(` ${ message.destinationName } -- ${ msg }`);
 
-    if ( msg > 50 ) {
-      return false;
-    }
+    if ( msg > 50 ) { return false; }
 
-    if ( msg == getValueGauge() ) {
-      return false;
-    }
+    if ( msg == getValueGauge() ) { return false; }
 
     setGaugeValue(msg);
 
@@ -64,7 +60,7 @@
   };
 
   const onFailure = (message) => {
-    console.log("Connection failed: " + message.errorMessage);
+    console.log(`Connection failed: ${ message.errorMessage }`);
   };
 
   const connect = () => {
@@ -80,7 +76,7 @@
   };
 
   const save = () => {
-    localStorage.setItem("defaultSettings", JSON.stringify({
+    localStorage.setItem('defaultSettings', JSON.stringify({
       broker: brokerInput.value,
       port  : portInput.value,
       topic : topicInput.value
