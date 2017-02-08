@@ -1,5 +1,7 @@
 (function () {
 
+  let mqtt = null;
+
   const brokerInput = document.getElementById('broker');
   const portInput   = document.getElementById('port');
   const topicInput  = document.getElementById('topic');
@@ -7,20 +9,28 @@
   const saveButton    = document.getElementById('save');
   const connectButton = document.getElementById('connect');
 
-  let json = {
+  const defaultSettings = {
     broker: 'broker.iot-br.com',
-    topic: 'DZ/gauge/temperature',
-    port: 8880
+    topic : 'DZ/gauge/temperature',
+    port  : 8880
   };
 
-  if ( JSON.parse(localStorage.getItem('mqtt')) ) {
-    json = JSON.parse(localStorage.getItem('mqtt'));
-  }
+  const loadConfigs = () => {
+    if ( !JSON.parse(localStorage.getItem('defaultSettings')) ) {
+      return;
+    }
+
+    let json = JSON.parse(localStorage.getItem('defaultSettings'));
+
+    defaultSettings.broker = json.broker;
+    defaultSettings.port   = json.port;
+    defaultSettings.topic  = json.topic;
+  };
 
   const mqttConnect = () => {
     return new Paho.MQTT.Client(
-      json.broker,
-      parseInt(json.port),
+      defaultSettings.broker,
+      parseInt(defaultSettings.port),
       "DZ-" + Date.now()
     );
   };
@@ -40,25 +50,16 @@
       return false;
     }
 
-    if ( msg == gauge.data.values('temperature')[0] ) {
+    if ( msg == getValueGauge() ) {
       return false;
     }
 
-    gauge.load({
-      columns: [
-        ['temperature', msg]
-      ]
-    });
+    setGaugeValue(msg);
 
   };
 
-  let mqtt              = mqttConnect();
-  mqtt.onConnectionLost = onConnectionLost;
-  mqtt.onMessageArrived = onMessageArrived;
-
-
   const onSuccess = () => {
-    mqtt.subscribe(json.topic, { qos: 1 });
+    mqtt.subscribe(defaultSettings.topic, { qos: 1 });
     Materialize.toast('Conectado ao broker', 2000);
   };
 
@@ -67,31 +68,34 @@
   };
 
   const connect = () => {
+    mqtt                  = mqttConnect();
+    mqtt.onConnectionLost = onConnectionLost;
+    mqtt.onMessageArrived = onMessageArrived;
 
-    let options = {
-      timeout: 3,
+    mqtt.connect({
+      timeout  : 3,
       onSuccess: onSuccess,
       onFailure: onFailure
-    };
-
-    mqtt.connect(options);
+    });
   };
 
   const save = () => {
-    var broker, topic;
-    broker = $('#broker').val();
-    port   = $('#port').val();
-    topic  = $('#topic').val();
+    localStorage.setItem("defaultSettings", JSON.stringify({
+      broker: brokerInput.value,
+      port  : portInput.value,
+      topic : topicInput.value
+    }));
+    Materialize.toast('Configurações salvas com sucesso!', 1000);
 
-    localStorage.setItem("mqtt", JSON.stringify({ broker: broker, port: port, topic: topic }));
-
-    return location.reload();
+    loadConfigs();
   };
 
   const init = () => {
-    brokerInput.value = json.broker;
-    portInput.value   = json.port;
-    topicInput.value  = json.topic;
+    loadConfigs();
+
+    brokerInput.value = defaultSettings.broker;
+    portInput.value   = defaultSettings.port;
+    topicInput.value  = defaultSettings.topic;
   };
 
   init();

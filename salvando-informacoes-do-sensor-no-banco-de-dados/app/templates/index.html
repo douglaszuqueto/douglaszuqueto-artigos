@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>Douglas Zuqueto - Sensoriamento Real Time com MQTT e Websockets</title>
+    <title>Douglas Zuqueto - Integrando a aplicação web com banco de dados.</title>
 
     <!-- Load CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
@@ -20,30 +20,32 @@
 </head>
 <body>
 <div class="container app">
-    <h5 class="center">Sensoriamento Real Time com MQTT e Websockets</h5>
+    <h5 class="center">Integrando a aplicação web com banco de dados.</h5>
     <br>
-    <form method="GET" action="#">
-        <div class="row">
-            <div class="input-field col s6">
-                <input id="broker" type="text" class="validate">
-                <label for="broker" class="active">Broker</label>
-            </div>
-            <div class="input-field col s6">
-                <input id="port" type="text" class="validate">
-                <label for="port" class="active">Port</label>
-            </div>
+    <div class="row">
+        <div class="col s12 l8 push-l2">
+            <form method="GET" action="#">
+                <div class="input-field col s6">
+                    <input id="broker" type="text" class="validate">
+                    <label for="broker" class="active">Broker</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="port" type="number" class="validate">
+                    <label for="port" class="active">Port</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="topic" type="text" class="validate">
+                    <label for="topic" class="active">Topic</label>
+                </div>
+                <input class="btn green col s5" type="button" id="save" name="save" value="Salvar">
+                <input class="btn blue col s5 right" type="button" id="connect" name="connect" value="Conectar">
+            </form>
         </div>
-        <div class="input-field col s12">
-            <input id="topic" type="text" class="validate">
-            <label for="topic" class="active">Topic</label>
+    </div>
+    <div class="row">
+        <div class="col s12 m8 l12">
+            <div id='gauge'></div>
         </div>
-        <div class="row">
-            <input class="btn green col s5" type="button" id="save" name="save" value="Salvar">
-            <input class="btn blue col s5 right" type="button" id="connect" name="connect" value="Conectar">
-        </div>
-    </form>
-    <div class="col s12 m8 l12">
-        <div id='gauge'></div>
     </div>
     <div class="row">
         <div class="col s12 m8 l8  push-l2">
@@ -74,7 +76,7 @@
                 Confira o artigo em:
                 <a href="https://douglaszuqueto.com/artigos/sensoriamento-real-time-com-mqtt-e-websockets"
                    target="_blank">
-                    "Sensoriamento Real Time com MQTT e Websockets"
+                    "Integrando a aplicação web com banco de dados."
                 </a>
             </h6>
             <br>

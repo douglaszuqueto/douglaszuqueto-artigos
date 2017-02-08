@@ -1,32 +1,41 @@
-/* Configuracao do Gauge */
-var gauge = c3.generate({
+const gauge = c3.generate({
   bindto: '#gauge',
-  data: {
+  data  : {
     columns: [
       ['temperature', 0]
     ],
-    type: 'gauge',
+    type   : 'gauge',
   },
-  gauge: {
+  gauge : {
     label: {
       format: (value, ratio) => {
         return value + ' ºC';
       },
-      show: false
+      show  : false
     },
-    min: 0,
-    max: 50,
+    min  : 0,
+    max  : 50,
     units: ' ºC',
   },
-  color: {
-    pattern: ['#227EAF', '#F97600'],
+  color : {
+    pattern  : ['#227EAF', '#F97600'],
     threshold: {
-      unit: 'ºC',
-      max: 50,
+      unit  : 'ºC',
+      max   : 50,
       values: [10, 30]
     }
   },
-  size: {
+  size  : {
     height: 180
   }
 });
+
+const getValueGauge = () => { return gauge.data.values('temperature')[0] };
+
+const setGaugeValue = (value) => {
+  gauge.load({
+    columns: [
+      ['temperature', value]
+    ]
+  });
+};
