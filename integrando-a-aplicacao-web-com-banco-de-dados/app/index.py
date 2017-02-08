@@ -2,6 +2,7 @@
 import sqlite3
 from flask import Flask, render_template
 
+debug = True
 # instancia o flask
 app = Flask(__name__)
 
@@ -30,4 +31,9 @@ if __name__ == "__main__":
     # 2 parametros sao passados, host e port
     # host = seu ip, neste caso sera 0.0.0.0 pois rodara em todas interfaces de rede
     # port = porta que sera usada, neste caso iremos rodar na porta 80
-    app.run(host='0.0.0.0', port=80)
+
+    if debug:
+        app.run(host='0.0.0.0', port=80, debug=True)
+    else:
+        app.run(host='0.0.0.0', port=80)
+
