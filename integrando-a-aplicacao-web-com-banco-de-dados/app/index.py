@@ -2,6 +2,9 @@
 import sqlite3
 from flask import Flask, render_template
 
+# instancia o flask
+app = Flask(__name__)
+
 def getTemperature():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
@@ -15,9 +18,6 @@ def getTemperature():
     return cursor.fetchall()
 
     conn.close()
-
-# instancia o flask
-app = Flask(__name__)
 
 # define uma rota, neste caso a rota raiz
 @app.route('/')
