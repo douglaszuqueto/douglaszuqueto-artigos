@@ -1,13 +1,14 @@
 import sys
-import paho.mqtt.client as mqtt # importa o pacote mqtt
+import paho.mqtt.client as mqtt
 import sqlite3
 
-broker = "broker.iot-br.com" # define o host do broker mqtt'
-port = 8080 # define a porta do broker
-keppAlive = 60 # define o keepAlive da conexao
-topic = 'DZ/#' # define o topico que este script assinara
+broker = "broker.iot-br.com"
+port = 8080
+keppAlive = 60
+topic = 'DZ/#'
 
-def insertDatabase(message):
+# funcao responsavel por cadastrar no banco de dados a temperatura do sensor
+def insertTemperature(message):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
@@ -20,33 +21,29 @@ def insertDatabase(message):
     conn.commit()
     conn.close()
 
-# funcao on_connect sera atribuida e chamada quando a conexao for iniciada
-# ela printara na tela caso tudo ocorra certo durante a tentativa de conexao
-# tambem ira assina o topico que foi declarado acima
 def on_connect(client, userdata, flags, rc):
     print("[STATUS] Conectado ao Broker. Resultado de conexao: "+str(rc))
 
     client.subscribe(topic)
 
-# possui o mesmo cenario que o on_connect, porem, ela sera atrelada ao loop
-# do script, pois toda vez que receber uma nova mensagem do topico assinado, ela sera invocada
 def on_message(client, userdata, msg):
 
     message = str(msg.payload) # converte a mensagem recebida
-    print("[MSG RECEBIDA] Topico: "+msg.topic+" / Mensagem: "+ message) # imprime no console a mensagem
+    print("[MSG RECEBIDA] Topico: "+msg.topic+" / Mensagem: "+ message)
 
     if msg.topic == 'DZ/gauge/temperature':
-        insertDatabase(message)
+
+        insertTemperature(message) # invoca o metodo de cadastro passando por parametro a temperatura recebida
 
 try:
     print("[STATUS] Inicializando MQTT...")
 
-    client = mqtt.Client() # instancia a conexao
-    client.on_connect = on_connect # define o callback do evento on_connect
-    client.on_message = on_message # define o callback do evento on_message
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_message = on_message
 
-    client.connect(broker, port, keppAlive) # inicia a conexao
-    client.loop_forever() # a conexao mqtt entrara em loop ou seja, ficara escutando e processando todas mensagens recebidas
+    client.connect(broker, port, keppAlive)
+    client.loop_forever()
 
 except KeyboardInterrupt:
     print "\nScript finalizado."
