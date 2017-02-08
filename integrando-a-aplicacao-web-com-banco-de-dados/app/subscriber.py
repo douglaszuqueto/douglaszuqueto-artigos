@@ -2,6 +2,11 @@ import sys
 import paho.mqtt.client as mqtt # importa o pacote mqtt
 import sqlite3
 
+broker = "broker.iot-br.com" # define o host do broker mqtt'
+port = 8080 # define a porta do broker
+keppAlive = 60 # define o keepAlive da conexao
+topic = 'DZ/#' # define o topico que este script assinara
+
 def insertDatabase(message):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
@@ -14,11 +19,6 @@ def insertDatabase(message):
 
     conn.commit()
     conn.close()
-
-broker = "broker.iot-br.com" # define o host do broker mqtt'
-port = 8080 # define a porta do broker
-keppAlive = 60 # define o keepAlive da conexao
-topic = 'DZ/#' # define o topico que este script assinara
 
 # funcao on_connect sera atribuida e chamada quando a conexao for iniciada
 # ela printara na tela caso tudo ocorra certo durante a tentativa de conexao
