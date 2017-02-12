@@ -6,7 +6,7 @@ import Adafruit_MCP9808.MCP9808 as MCP9808
 broker = "broker.iot-br.com"
 port = 8080
 keppAlive = 60
-topic = 'DZ/rasp/temperature'
+topic = 'DZ/gauge/temperature'
 
 sensor = MCP9808.MCP9808()
 sensor.begin()
