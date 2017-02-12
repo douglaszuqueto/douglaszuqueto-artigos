@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+  <meta name="apple-mobile-web-app-title" content="Douglas Zuqueto">
+  <meta name="application-name" content="Douglas Zuqueto">
+  <meta name="theme-color" content="#008BD3">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico">
+
+  <link rel="icon" type="image/png" href="/static/images/icons/android/favicon-36x36.png" sizes="36x36">
+  <link rel="icon" type="image/png" href="/static/images/icons/android/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/static/images/icons/android/favicon-192x192.png" sizes="192x192">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/static/images/icons/ios/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="20x20" href="/static/images/icons/ios/apple-touch-icon-20x20.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/static/images/icons/ios/apple-touch-icon-76x76.png">
+
+  <title>Douglas Zuqueto - Integrando a aplicação web com banco de dados.</title>
+
+  <!-- Load CSS -->
+  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">-->
+  <link rel="stylesheet" href="/static/css/libs/materialize.min.css">
+  <link href="/static/css/libs/c3.min.css" rel="stylesheet" type="text/css">
+
+  <!-- Load JS -->
+  <script src="/static/js/libs/mqttws31.min.js"
+          type="text/javascript"></script>
+  <style media="screen">
+    .app {
+      margin-top: 20px;
+    }
+
+    input[type=checkbox]:checked + .lever {
+      background-color: #dddddd !important;
+    }
+
+    .switch {
+      height: 50px !important;
+
+    }
+
+    input[type=checkbox]:checked + .lever:after {
+      background-color: #4caf50 !important;
+      left: 44px !important;
+    }
+
+    .switch label .lever {
+      content: "";
+      display: inline-block;
+      position: relative;
+      width: 80px;
+      height: 40px;
+      background-color: #dddddd;
+      border-radius: 30px;
+      margin-right: 10px;
+      transition: background 0.3s ease;
+      vertical-align: middle;
+      margin: 0 16px;
+    }
+
+    .switch label .lever:after {
+      content: "";
+      position: absolute;
+      display: inline-block;
+      width: 35px;
+      height: 35px;
+      background-color: #f44336;
+      border-radius: 30px;
+      box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4);
+      left: -5px;
+      top: 2px;
+      transition: left 0.3s ease, background .3s ease, box-shadow 0.1s ease;
+    }
+
+
+  </style>
+</head>
+<body>
+<div class="container app">
+  <h5 class="center">Integrando a aplicação web com banco de dados.</h5>
+  <br>
+  <div class="row">
+    <div class="col s12 l8 push-l2">
+      <form method="GET" action="#">
+        <div class="input-field col s6">
+          <input id="broker" type="text" class="validate">
+          <label for="broker" class="active">Broker</label>
+        </div>
+        <div class="input-field col s6">
+          <input id="port" type="number" class="validate">
+          <label for="port" class="active">Port</label>
+        </div>
+        <div class="input-field col s12">
+          <input id="topic" type="text" class="validate">
+          <label for="topic" class="active">Topic</label>
+        </div>
+        <input class="btn green col s5" type="button" id="save" name="save" value="Salvar">
+        <input class="btn blue col s5 right" type="button" id="connect" name="connect" value="Conectar">
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12">
+      <div class="input-field col s6">
+        <div class="switch">
+          <label>
+            Rele 1
+            <input type="checkbox" class="checkbox" name="0" disabled>
+            <span class="lever"></span>
+
+          </label>
+        </div>
+      </div>
+      <div class="input-field col s6">
+        <div class="switch">
+          <label>
+            Rele 2
+            <input type="checkbox" class="checkbox" name="1" disabled>
+            <span class="lever"></span>
+
+          </label>
+        </div>
+      </div>
+      <div class="input-field col s6">
+        <div class="switch">
+          <label>
+            Rele 3
+            <input type="checkbox" class="checkbox" name="2" disabled>
+            <span class="lever"></span>
+
+          </label>
+        </div>
+      </div>
+      <div class="input-field col s6">
+        <div class="switch">
+          <label>
+            Rele 4
+            <input type="checkbox" class="checkbox" name="3" disabled>
+            <span class="lever"></span>
+
+          </label>
+        </div>
+      </div>
+      <div class="input-field col s6">
+        <div class="switch">
+          <label>
+            Rele 5
+            <input type="checkbox" class="checkbox" name="4" disabled>
+            <span class="lever"></span>
+
+          </label>
+        </div>
+      </div>
+      <div class="input-field col s6">
+        <div class="switch">
+          <label>
+            Rele 6
+            <input type="checkbox" class="checkbox" name="5" disabled>
+            <span class="lever"></span>
+
+          </label>
+        </div>
+      </div>
+      <div class="input-field col s6">
+        <div class="switch">
+          <label>
+            Rele 7
+            <input type="checkbox" class="checkbox" name="6" disabled>
+            <span class="lever"></span>
+
+          </label>
+        </div>
+      </div>
+      <div class="input-field col s6">
+        <div class="switch">
+          <label>
+            Rele 8
+            <input type="checkbox" class="checkbox" name="7" disabled>
+            <span class="lever"></span>
+
+          </label>
+        </div>
+      </div>
+      <div class="input-field col s6">
+        <div class="switch">
+          <label>
+            Rele 9
+            <input type="checkbox" class="checkbox" name="8" disabled>
+            <span class="lever"></span>
+
+          </label>
+        </div>
+      </div>
+      <div class="input-field col s6">
+        <div class="switch">
+          <label>
+            Rele 10
+            <input type="checkbox" class="checkbox" name="9" disabled>
+            <span class="lever"></span>
+
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+<!-- Patrocinio -->
+<div class="row">
+  <div class="col s12 center">
+    <h6>
+      Confira o artigo em:
+      <a href="https://douglaszuqueto.com/artigos/integrando-a-aplicacao-web-com-banco-de-dados"
+         target="_blank">
+        "Integrando a aplicação web com banco de dados."
+      </a>
+    </h6>
+    <br>
+    <a href="https://douglaszuqueto.com">
+      <img src="/static/images/dz.png" width="15%" title="Douglas Zuqueto">
+    </a>
+  </div>
+</div>
+
+<!-- Load JS -->
+<script src="/static/js/libs/jquery-1.11.3.min.js"></script>
+<script src="/static/js/libs/d3.v3.min.js"></script>
+<script src="/static/js/libs/c3.min.js"></script>
+<script src="/static/js/libs/materialize.min.js"></script>
+
+<!-- Load JS APP -->
+<script src="/static/js/app.js" type="text/javascript"></script>
+</div>
+</body>
+</html>
