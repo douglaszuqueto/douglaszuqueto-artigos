@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import time
 import Adafruit_MCP9808.MCP9808 as MCP9808
 
