@@ -27,9 +27,10 @@ try:
   while(True):
     temp = sensor.readTempC()
     temp = '{0:0.2F}'.format(temp)
-
     print("Temperature: " + temp + "*C")
+
     client.publish(topic, temp)
+
     time.sleep(1.0)
 
 except KeyboardInterrupt:
