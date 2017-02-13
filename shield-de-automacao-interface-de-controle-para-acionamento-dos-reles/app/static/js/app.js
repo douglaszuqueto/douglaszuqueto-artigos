@@ -29,10 +29,9 @@
   };
 
   const changeCheckboxesState = (state = true) => {
-    for ( let i = 0; i < checkboxInput.length; i++ ) {
-      let rele      = checkboxInput[i];
-      rele.disabled = state;
-    }
+    Array.from(checboxInput).forEach(el => {
+      el.disabled = state;
+    });
   };
 
   const mqttConnect = () => {
