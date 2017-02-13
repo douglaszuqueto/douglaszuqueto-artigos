@@ -72,7 +72,7 @@
     mqtt.onMessageArrived = onMessageArrived;
 
     mqtt.connect({
-      timeout  : 3,
+      timeout  : 10,
       onSuccess: onSuccess,
       onFailure: onFailure
     });
@@ -90,11 +90,11 @@
   };
 
   const createMessage = (topic, value) => {
-    message                 = new Paho.MQTT.Message(value.toString());
+    let message             = new Paho.MQTT.Message(value.toString());
     message.destinationName = `DZ/rasp/${topic}`;
     mqtt.send(message);
 
-    // Materialize.toast(`${topic}:${value}`, 2000);
+    Materialize.toast(`${topic}:${value}`, 1000);
   };
 
   function sendMessage(el) {
@@ -139,21 +139,20 @@
 
   const init = () => {
     loadConfigs();
-    // createInputsReles();
 
     brokerInput.value = defaultSettings.broker;
     portInput.value   = defaultSettings.port;
     topicInput.value  = defaultSettings.topic;
 
+    saveButton.addEventListener('click', save);
+    connectButton.addEventListener('click', connect);
+
+    Array.from(checkboxInput).forEach(link => {
+      link.addEventListener('change', sendMessage);
+    });
+
   };
 
   init();
-  saveButton.addEventListener('click', save);
-  connectButton.addEventListener('click', connect);
-
-  for ( var i = 0; i < checkboxInput.length; i++ ) {
-    var link = checkboxInput[i];
-    link.addEventListener('change', sendMessage);
-  }
 
 })();
