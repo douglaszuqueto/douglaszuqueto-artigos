@@ -29,7 +29,7 @@
   };
 
   const changeCheckboxesState = (state = true) => {
-    Array.from(checboxInput).forEach(el => {
+    Array.from(checkboxInput).forEach(el => {
       el.disabled = state;
     });
   };
