@@ -8,7 +8,7 @@ import Adafruit_GPIO as GPIO
 broker    = "broker.iot-br.com"
 port      = 8080
 keppAlive = 60
-topic     = 'DZ/#'
+topic     = 'DZ/rasp/rele/#'
 
 mcp = MCP.MCP23017()
 mcp.setup(0, GPIO.OUT)
