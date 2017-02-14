@@ -103,39 +103,6 @@
     createMessage(topic, value);
   }
 
-  const createInputRele = (name = 'Rele', value = 'rele') => {
-
-    let reles = "<div class='row'>";
-    reles += "<div class='input-field col s3'>";
-    reles += "<div class='switch'>";
-    reles += "<label>";
-    reles += name;
-    reles += "<input type='checkbox' class='checkbox' name='" + value + "' disabled>";
-    reles += "<span class='lever'></span>";
-    reles += "</label>";
-    reles += "</div>";
-    reles += "</div>";
-    reles += "</div>";
-
-    return reles;
-
-  };
-
-  const createInputsReles = () => {
-    let target   = document.getElementById('reles');
-    let qtdReles = 10;
-    let html     = '';
-
-    for ( let i = 0; i < qtdReles; i++ ) {
-
-      html += createInputRele(`Rele ${i + 1}`, `${i}`);
-
-    }
-
-    target.innerHTML = html;
-
-  };
-
   const init = () => {
     loadConfigs();
 
