@@ -9,7 +9,7 @@ def index():
 
 if __name__ == "__main__":
     if debug:
-        app.run(host='0.0.0.0', port=80, debug=True)
+        app.run(host='192.168.0.100', port=80, debug=True)
     else:
         app.run(host='0.0.0.0', port=80)
 
