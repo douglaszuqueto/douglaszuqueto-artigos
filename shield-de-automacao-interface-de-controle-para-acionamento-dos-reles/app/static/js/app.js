@@ -12,7 +12,7 @@
 
   const defaultSettings = {
     broker: 'broker.iot-br.com',
-    topic : 'DZ/gauge/temperature',
+    topic : 'DZ/rasp/relay/#',
     port  : 8880
   };
 
