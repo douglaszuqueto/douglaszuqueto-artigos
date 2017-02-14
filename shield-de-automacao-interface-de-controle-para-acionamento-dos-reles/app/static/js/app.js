@@ -93,7 +93,7 @@
     message.destinationName = `DZ/rasp/${topic}`;
     mqtt.send(message);
 
-    Materialize.toast(`Rele ${topic}: ${value === 1 ? 'Ligado' : 'Desligado'}`, 1000);
+    Materialize.toast(`Rele ${parseInt(topic) + 1}: ${value === 1 ? 'Ligado' : 'Desligado'}`, 1000);
   };
 
   function sendMessage(el) {
