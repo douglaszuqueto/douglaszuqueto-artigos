@@ -23,7 +23,7 @@ def on_message(client, userdata, msg):
   print("[MSG RECEBIDA] Topico: " + msg.topic + " / Mensagem: " + message)
 
   topic = str(msg.topic).split('/')
-  relayName = int(topic[2])
+  relayName = int(topic[3])
 
   if message == '1':
     mcp.output(relayName, True)
