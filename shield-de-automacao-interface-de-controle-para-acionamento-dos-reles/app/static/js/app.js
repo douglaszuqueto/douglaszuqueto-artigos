@@ -90,7 +90,7 @@
 
   const createMessage = (topic, value) => {
     let message             = new Paho.MQTT.Message(value.toString());
-    message.destinationName = `DZ/rasp/rele/${topic}`;
+    message.destinationName = `DZ/rasp/relay/${topic}`;
     mqtt.send(message);
 
     Materialize.toast(`Rele ${parseInt(topic) + 1}: ${value === 1 ? 'Ligado' : 'Desligado'}`, 1000);
