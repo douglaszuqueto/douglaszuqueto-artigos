@@ -2,12 +2,13 @@ from flask import Flask, render_template, jsonify
 
 debug = True
 app   = Flask(__name__)
+API_PREFIX = '/api/v1/'
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/states')
+@app.route(API_PREFIX + 'states')
 def states():
     states = {
       0: 0,
