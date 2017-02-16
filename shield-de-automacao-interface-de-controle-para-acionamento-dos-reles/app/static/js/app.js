@@ -34,6 +34,25 @@
     });
   };
 
+  const getRelayStates = () => {
+    const url = '/states';
+
+    fetch(url)
+      .then(res => res.json(res))
+      .then(res => loadStateInputs(res))
+      .catch(error => console.log(error));
+
+  };
+
+  const loadStateInputs = (states) => {
+
+    for ( let key in states ) {
+      if ( states.hasOwnProperty(key) ) {
+        checkboxInput[key].checked = states[key];
+      }
+    }
+  };
+
   const mqttConnect = () => {
     return new Paho.MQTT.Client(
       defaultSettings.broker,
@@ -49,9 +68,31 @@
 
   };
 
+  const topicToArray = (topic) => {
+    topic     = topic.split('/');
+    let relay = parseInt(topic[3]) + 1;
+
+    return `${topic[0]}/${topic[1]}/${topic[2]}/${relay}`;
+  };
+
+  const changeSwitchState = (topic, msg) => {
+    let relay = parseInt((topic.split('/'))[3]);
+
+    Array.from(checkboxInput).forEach(el => {
+      let name = parseInt(el.name);
+      if ( name === relay ) {
+        el.checked = parseInt(msg);
+      }
+    });
+  };
+
   const onMessageArrived = (message) => {
-    let msg = message.payloadString;
-    console.log(` ${ message.destinationName } -- ${ msg }`);
+    let msg   = message.payloadString;
+    let topic = message.destinationName;
+
+    console.log(` ${ topicToArray(topic) } -- ${ msg }`);
+    changeSwitchState(topic, msg);
+
   };
 
   const onSuccess = () => {
@@ -96,15 +137,16 @@
     Materialize.toast(`Rele ${parseInt(topic) + 1}: ${value === 1 ? 'Ligado' : 'Desligado'}`, 1000);
   };
 
-  function sendMessage(el) {
+  const sendMessage = (el) => {
     let topic = el.srcElement.name;
-    let value = this.checked ? this.value = 1 : this.value = 0;
+    let value = el.srcElement.checked ? el.srcElement.value = 1 : el.srcElement.value = 0;
 
     createMessage(topic, value);
-  }
+  };
 
   const init = () => {
     loadConfigs();
+    getRelayStates();
 
     brokerInput.value = defaultSettings.broker;
     portInput.value   = defaultSettings.port;
