@@ -11,22 +11,19 @@ def index():
 def states():
     states = {
       0: 0,
-      1: 1,
+      1: 0,
       2: 0,
-      3: 1,
+      3: 0,
       4: 0,
-      5: 1,
+      5: 0,
       6: 0,
-      7: 1,
+      7: 0,
       8: 0,
-      9: 1
+      9: 0
     }
 
     return jsonify(states)
 
 if __name__ == "__main__":
-    if debug:
-        app.run(host='0.0.0.0', port=80, debug=True)
-    else:
-        app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=80, debug=debug)
 
