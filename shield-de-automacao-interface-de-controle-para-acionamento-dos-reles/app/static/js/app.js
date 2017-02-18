@@ -1,6 +1,7 @@
 (function () {
 
-  let mqtt = null;
+  let mqtt     = null;
+  let API_PATH = '/api/v1';
 
   const brokerInput   = document.getElementById('broker');
   const portInput     = document.getElementById('port');
@@ -35,9 +36,7 @@
   };
 
   const getRelayStates = () => {
-    const url = '/states';
-
-    fetch(url)
+    fetch(`${API_PATH}/states`)
       .then(res => res.json(res))
       .then(res => loadStateInputs(res))
       .catch(error => console.log(error));
