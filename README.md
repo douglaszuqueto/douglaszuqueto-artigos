@@ -11,5 +11,6 @@ Esse repositório é destinado para hospedar todos scripts que serão gerados à
 * [Sensoriamento Real Time com MQTT e Websockets](https://douglaszuqueto.com/artigos/sensoriamento-real-time-com-mqtt-e-websockets)
 * [Integrando a aplicação web com banco de dados](https://douglaszuqueto.com/artigos/integrando-a-aplicacao-web-com-banco-de-dados)
 * [Utilizando o MCP9808 na Raspberry PI](https://douglaszuqueto.com/artigos/utilizando-o-mcp9808-na-raspberry-pi)
+* [Shield de Automação: Interface de controle para acionamento dos reles](https://douglaszuqueto.com/artigos/shield-de-automacao-interface-de-controle-para-acionamento-dos-reles]
 
 Não deixe de acompanhar o blog: https://douglaszuqueto.com e seguir a minha [fan page no facebook](https://www.facebook.com/douglaszuquetooficial/)
